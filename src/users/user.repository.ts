@@ -14,4 +14,8 @@ export class UserRepository {
       where,
     });
   }
+
+  async create (data: Prisma.UserCreateInput) {
+    return this.prisma.user.create({ data })
+  }
 }

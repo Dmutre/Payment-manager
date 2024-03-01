@@ -2,6 +2,7 @@ import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtGuard } from 'src/security/JwtGuard';
 import { LocalAuthGuard } from 'src/security/LocalGuard';
+import { CreateUserDTO } from 'src/users/dto/CreateUserDTO';
 
 @Controller('auth')
 export class AuthController {
@@ -9,6 +10,8 @@ export class AuthController {
   constructor(
     private authService: AuthService
   ) {}
+
+  
   @Post('/registration')
   async registrate(
     @Body() data: CreateUserDTO,

@@ -2,11 +2,16 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserRepository } from 'src/users/user.repository';
 import { InvalidEntityIdException } from 'src/utils/exeptions/InvalidEntityIdException';
 import * as bcrypt from 'bcrypt';
+import { CreateUserDTO } from 'src/users/dto/CreateUserDTO';
+import { AlreadyRegisteredException } from 'src/utils/exeptions/AlreadyRegisteredException';
+import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userRepository: UserRepository,
+    private jwtService: JwtService,
   ) {}
 
   async validateUser (username: string, password: string) {
@@ -28,9 +33,63 @@ export class AuthService {
     return bcrypt.compare(password, hash);
   }
 
-  async hashPassword (password: string) {
-    const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-    return bcrypt.hash(password, salt);
+  async hashPassword(password: string): Promise<string> {
+    const saltOrRounds = 10;
+    return await bcrypt.hash(password, saltOrRounds);
+  }
+
+  async registrate(data: CreateUserDTO) {
+    if(await this.checkIfUserAlreadyRegistered(data.username)) {
+      throw new AlreadyRegisteredException();
+    }
+
+    data.password = await this.hashPassword(data.password);
+
+
+    const user = await this.userRepository.create(data);
+
+    return this.generateTokens(user);
+  }
+
+  private async checkIfUserAlreadyRegistered(username: string) {
+    const user = this.userRepository.find({
+      username
+    });
+
+    return user;
+  }
+
+  private generateTokens(user: User) {
+    const payload = this.createPayload(user);
+
+    return {
+      refresh_token: this.jwtService.sign(payload, {
+        expiresIn: process.env.JWT_REFRESH_TOKEN_TTL
+      }),
+      access_token: this.jwtService.sign(payload),
+    };
+  }
+
+  private createPayload(user: User) {
+    return {
+      sub: user.id,
+      username: user.username,
+      createdAt: Date.now()
+    }
+  }
+
+  async login(user: User) {
+    return this.generateTokens(user);
+  }
+
+  refresh(user: User) {
+    const payload = this.createPayload(user);
+    return this.generateAccessToken(payload);
+  }
+
+  generateAccessToken(payload) {
+    return {
+      access_token: this.jwtService.sign(payload)
+    };
   }
 }
