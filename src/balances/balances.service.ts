@@ -16,11 +16,7 @@ export class BalancesService {
     return await this.balanceRepository.findOne({ userId })
   }
 
-  async updateBalance (userId: string, payment: Payment) {
-    let change;
-    if(payment.type === 'INCOME') change = payment.amount;
-    else change = -payment.amount;
-
+  async updateBalance (userId: string, change: number) {
     const balance = await this.balanceRepository.findOne({ userId });
     return await this.balanceRepository.update(userId, { balance: balance.balance + change})
   }

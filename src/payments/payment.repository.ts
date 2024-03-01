@@ -37,7 +37,7 @@ export class Paymentrepository {
       where: {
         userId: userId,
         createdAt: {
-          gte: date,
+          gt: date,
         },
       },
     });
