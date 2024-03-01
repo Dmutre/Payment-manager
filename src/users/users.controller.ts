@@ -1,6 +1,7 @@
-import { Controller, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request, Query, BadRequestException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtGuard } from 'src/security/JwtGuard';
+import { GetBalanceDto } from './dto/GetBalanceInTimeDTO';
 
 @Controller('users')
 export class UsersController {
@@ -9,10 +10,12 @@ export class UsersController {
   ) {}
 
   @UseGuards(JwtGuard)
-  @Get('/')
+  @Get('/balance')
   async getUser(
     @Request() req,
+    @Query() getBalanceDto: GetBalanceDto
   ) {
-    return req.user.balance;
+    const date = new Date(getBalanceDto.time);
+    return this.userService.getBalanceFromTime(date, req.user);
   }
 }

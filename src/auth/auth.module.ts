@@ -7,6 +7,7 @@ import { JwtStrategy } from 'src/security/JwtStrategy';
 import { JwtGuard } from 'src/security/JwtGuard';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/users/users.module';
+import { BalancesModule } from 'src/balances/balances.module';
 
 @Module({
   controllers: [AuthController],
@@ -14,8 +15,8 @@ import { UsersModule } from 'src/users/users.module';
   imports: [ JwtModule.register({
     global: true,
     secret: process.env.SECRET,
-    signOptions: { expiresIn: '86400s' },
-  }), UsersModule],
+    signOptions: { expiresIn: '8640000s' },
+  }), UsersModule, BalancesModule],
   exports: [AuthService],
 })
 export class AuthModule {}

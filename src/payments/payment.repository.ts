@@ -13,8 +13,8 @@ export class Paymentrepository {
     return await this.prisma.payment.create({ data });
   }
 
-  async findAll() {
-    return await this.prisma.payment.findMany();
+  async findAll(userId: string) {
+    return await this.prisma.payment.findMany({ where: { userId }});
   }
 
   async findUnique(where: Prisma.PaymentWhereUniqueInput) {
@@ -30,5 +30,16 @@ export class Paymentrepository {
 
   async deleteOne(id: string) {
     return await this.prisma.payment.delete({ where: { id }});
+  }
+
+  async findInTime(date: Date, userId: string) {
+    return await this.prisma.payment.findMany({
+      where: {
+        userId: userId,
+        createdAt: {
+          gte: date,
+        },
+      },
+    });
   }
 }

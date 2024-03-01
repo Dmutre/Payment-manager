@@ -11,10 +11,17 @@ model User {
   id          String    @id @default(uuid())
   username    String    @unique
   password    String?
-  balance     Int       @default(0)
 
+  balances    Balance[]
   payments    Payment[]
   category    Category[]
+}
+
+model Balance {
+  id          String    @id @default(uuid())
+  balance     Int       @default(0)
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
 }
 
 model Payment {

@@ -6,11 +6,13 @@ import { CreateUserDTO } from 'src/users/dto/CreateUserDTO';
 import { AlreadyRegisteredException } from 'src/utils/exeptions/AlreadyRegisteredException';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
+import { BalancesService } from 'src/balances/balances.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userRepository: UserRepository,
+    private balanceService: BalancesService,
     private jwtService: JwtService,
   ) {}
 
@@ -47,7 +49,7 @@ export class AuthService {
 
 
     const user = await this.userRepository.create(data);
-
+    await this.balanceService.createBalance(user.id)
     return this.generateTokens(user);
   }
 

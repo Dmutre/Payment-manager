@@ -5,10 +5,13 @@ import { Paymentrepository } from './payment.repository';
 import { PrismaModule } from 'src/database/prisma.module';
 import { CategoriesModule } from 'src/categories/categories.module';
 import { PaymentLogger } from './payment.logger';
+import { UsersModule } from 'src/users/users.module';
+import { BalancesModule } from 'src/balances/balances.module';
 
 @Module({
   providers: [PaymentsService, Paymentrepository, PaymentLogger],
   controllers: [PaymentsController],
-  imports: [PrismaModule, CategoriesModule],
+  imports: [PrismaModule, CategoriesModule, BalancesModule],
+  exports: [PaymentsService]
 })
 export class PaymentsModule {}
