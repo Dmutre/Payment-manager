@@ -21,12 +21,8 @@ export class PaymentsService {
   async createPayment(data: CreatePaymentDTO, userId: string) {
     const userBalance = await this.balanceService.getBalance(userId);
 
-    if(data.categoryId) {
-      const category = await this.categoryRepository.findOne({id: data.categoryId});
-      if(!category) {
-        throw new InvalidEntityIdException('Category');
-      }
-    }
+    if(data.categoryId) await this.checkCategoryExistance(data.categoryId);
+
 
     if(!this.isValidPayment(data.amount, data.type, userBalance.balance)) {
       throw new BalanceException();
@@ -58,14 +54,23 @@ export class PaymentsService {
     return await this.paymentRepository.findUnique({ id })
   }
 
+  private async checkCategoryExistance(categoryId: string) {
+    const category = await this.categoryRepository.findOne({ id: categoryId });
+    if(!category) {
+      throw new InvalidEntityIdException('Category');
+    }
+  }
+
   async updatePayment(data: UpdatePaymentDTO, id: string) {
     const payment = await this.paymentRepository.findUnique({ id });
     const balance = await this.balanceService.getBalance(payment.userId);
+
+    if(data.categoryId) await this.checkCategoryExistance(data.categoryId);
   
     const updatedBalance = this.calculateBalanceAfterUpdate(payment, data, balance.balance);
     console.log(updatedBalance)
     if (updatedBalance < 0) {
-      throw new BadRequestException('Updating this payment would result in a negative balance.');
+      throw new BalanceException();
     }
 
     const updatedPayment = await this.paymentRepository.updateOne(id, data);
@@ -82,10 +87,10 @@ export class PaymentsService {
   
     if (updatedData.type !== undefined && updatedData.type !== payment.type) {
       if (updatedData.type === 'EXPENSE' && payment.type === 'INCOME' && (balance - payment.amount) < 0) {
-        throw new BadRequestException('Changing payment type from income to expense would result in a negative balance.');
+        throw new BalanceException();
       }
       if (updatedData.type === 'INCOME' && payment.type === 'EXPENSE' && (balance + payment.amount) < updatedPayment.amount) {
-        throw new BadRequestException('Changing payment type from expense to income would not make balance positive.');
+        throw new BalanceException();
       }
     }
   
@@ -118,7 +123,7 @@ export class PaymentsService {
   
     const updatedBalance = this.calculateBalanceAfterDelete(payment, payments, balance.balance);
     if (updatedBalance < 0) {
-      throw new BadRequestException('Deleting this payment would result in a negative balance.');
+      throw new BalanceException();
     }
   
     this.updateBalanceOnDelete(payment);
