@@ -4,7 +4,7 @@ import { CreatePaymentDTO } from './dto/CreatePaymentDTO';
 import { CategoryRepository } from 'src/categories/category.repository';
 import { InvalidEntityIdException } from 'src/utils/exeptions/InvalidEntityIdException';
 import { UpdatePaymentDTO } from './dto/UpdatePaymentDTO';
-import { PaymentLogger } from './payment.logger';
+import { PaymentLoggerService } from './payment.logger';
 import { BalancesService } from 'src/balances/balances.service';
 import { Payment, PaymentType } from '@prisma/client';
 import { BalanceException } from 'src/utils/exeptions/BalanceException';
@@ -15,7 +15,7 @@ export class PaymentsService {
     private paymentRepository: Paymentrepository,
     private categoryRepository: CategoryRepository,
     private balanceService: BalancesService,
-    private loggerService: PaymentLogger,
+    private loggerService: PaymentLoggerService,
   ) {}
 
   async createPayment(data: CreatePaymentDTO, userId: string) {
@@ -34,6 +34,8 @@ export class PaymentsService {
     })
 
     await this.updateBalance(payment)
+
+    this.loggerService.logPaymentCreation(payment)
 
     return payment;
   }
@@ -68,7 +70,6 @@ export class PaymentsService {
     if(data.categoryId) await this.checkCategoryExistance(data.categoryId);
   
     const updatedBalance = this.calculateBalanceAfterUpdate(payment, data, balance.balance);
-    console.log(updatedBalance)
     if (updatedBalance < 0) {
       throw new BalanceException();
     }
@@ -76,6 +77,8 @@ export class PaymentsService {
     const updatedPayment = await this.paymentRepository.updateOne(id, data);
     this.updateBalanceOnUpdate(payment, data, balance.balance, updatedPayment);
   
+    this.loggerService.logPaymentUpdate(payment, updatedPayment)
+
     return updatedPayment;
   }
   
@@ -128,8 +131,9 @@ export class PaymentsService {
   
     this.updateBalanceOnDelete(payment);
 
+    this.loggerService.logPaymentDeletion(payment)
+
     return await this.paymentRepository.deleteOne(id);
-    
   }
 
   private updateBalanceOnDelete(payment: Payment) {
