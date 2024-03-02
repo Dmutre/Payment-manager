@@ -1,18 +1,22 @@
 import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiBody, ApiOperation } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { JwtGuard } from 'src/security/JwtGuard';
 import { LocalAuthGuard } from 'src/security/LocalGuard';
 import { CreateUserDTO } from 'src/users/dto/CreateUserDTO';
+import { LoginUserDTO } from './dto/LoginUserDTO';
 
 @Controller('auth')
+@ApiTags('Authentication')
 export class AuthController {
 
   constructor(
     private authService: AuthService
   ) {}
 
-  
   @Post('/registration')
+  @ApiOperation({ summary: 'User registration' })
+  @ApiBody({ type: CreateUserDTO, description: 'User data for registration' })
   async registrate(
     @Body() data: CreateUserDTO,
   ) {
@@ -21,6 +25,8 @@ export class AuthController {
   
   @UseGuards(LocalAuthGuard)
   @Post('/login')
+  @ApiOperation({ summary: 'User login' })
+  @ApiBody({ type: LoginUserDTO, description: 'User credentials for login' })
   async login(
     @Request() req
   ) {
@@ -29,6 +35,8 @@ export class AuthController {
 
   @UseGuards(JwtGuard)
   @Post('/refresh')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Refresh JWT token' })
   async refreshToken(
     @Request() req
   ) {

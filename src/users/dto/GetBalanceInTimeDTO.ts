@@ -1,7 +1,8 @@
-import { IsDateString, IsNotEmpty } from 'class-validator';
+import { IsDateString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class GetBalanceDto {
-  @IsNotEmpty()
+  @ApiProperty({ type: String, required: true, description: 'Time to get balance from (not included) in ISO string format' })
   @IsDateString()
   time: string;
 }

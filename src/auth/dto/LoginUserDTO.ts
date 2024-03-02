@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 import { validationOptionsMsg } from 'src/utils/ValidationMessage';
 
-export class CreateUserDTO {
+export class LoginUserDTO {
 
   @ApiProperty({
     description: 'Username of the user',
