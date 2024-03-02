@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, Request } from '@nestjs/common';
-import { JwtGuard } from 'src/security/JwtGuard';
+import { JwtGuard } from '../security/JwtGuard';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDTO } from './dto/CreateCategoryDTO';
 import { UpdateCategoryDTO } from './dto/UpdateCategoryDTO';

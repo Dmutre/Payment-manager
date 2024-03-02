@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { CreatePaymentDTO } from './dto/CreatePaymentDTO';
-import { JwtGuard } from 'src/security/JwtGuard';
+import { JwtGuard } from '../security/JwtGuard';
 import { UpdatePaymentDTO } from './dto/UpdatePaymentDTO';
 import { PaymentOwnerGuard } from './payment.guard';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';

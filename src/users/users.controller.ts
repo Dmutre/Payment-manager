@@ -1,7 +1,7 @@
 import { Controller, Get, UseGuards, Request, Query } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { UsersService } from './users.service';
-import { JwtGuard } from 'src/security/JwtGuard';
+import { JwtGuard } from '../security/JwtGuard';
 import { GetBalanceDto } from './dto/GetBalanceInTimeDTO';
 
 @Controller('users')

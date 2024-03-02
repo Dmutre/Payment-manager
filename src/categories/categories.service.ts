@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CategoryRepository } from './category.repository';
 import { CreateCategoryDTO } from './dto/CreateCategoryDTO';
-import { InvalidEntityIdException } from 'src/utils/exeptions/InvalidEntityIdException';
+import { InvalidEntityIdException } from '../utils/exeptions/InvalidEntityIdException';
 import { UpdateCategoryDTO } from './dto/UpdateCategoryDTO';
 
 

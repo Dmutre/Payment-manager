@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
-import { validationOptionsMsg } from 'src/utils/ValidationMessage';
+import { validationOptionsMsg } from '../../utils/ValidationMessage';
 
 export class CreateUserDTO {
 

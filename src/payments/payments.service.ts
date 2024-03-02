@@ -1,13 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Paymentrepository } from './payment.repository';
 import { CreatePaymentDTO } from './dto/CreatePaymentDTO';
-import { CategoryRepository } from 'src/categories/category.repository';
-import { InvalidEntityIdException } from 'src/utils/exeptions/InvalidEntityIdException';
+import { CategoryRepository } from '../categories/category.repository';
+import { InvalidEntityIdException } from '../utils/exeptions/InvalidEntityIdException';
 import { UpdatePaymentDTO } from './dto/UpdatePaymentDTO';
 import { PaymentLoggerService } from './payment.logger';
-import { BalancesService } from 'src/balances/balances.service';
+import { BalancesService } from '../balances/balances.service';
 import { Payment, PaymentType } from '@prisma/client';
-import { BalanceException } from 'src/utils/exeptions/BalanceException';
+import { BalanceException } from '../utils/exeptions/BalanceException';
 
 @Injectable()
 export class PaymentsService {

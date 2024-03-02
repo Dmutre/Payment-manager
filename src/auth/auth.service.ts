@@ -1,12 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserRepository } from 'src/users/user.repository';
-import { InvalidEntityIdException } from 'src/utils/exeptions/InvalidEntityIdException';
+import { UserRepository } from '../users/user.repository';
+import { InvalidEntityIdException } from '../utils/exeptions/InvalidEntityIdException';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDTO } from 'src/users/dto/CreateUserDTO';
-import { AlreadyRegisteredException } from 'src/utils/exeptions/AlreadyRegisteredException';
+import { CreateUserDTO } from '../users/dto/CreateUserDTO';
+import { AlreadyRegisteredException } from '../utils/exeptions/AlreadyRegisteredException';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import { BalancesService } from 'src/balances/balances.service';
+import { BalancesService } from '../balances/balances.service';
 
 @Injectable()
 export class AuthService {
