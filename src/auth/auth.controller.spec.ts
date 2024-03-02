@@ -19,7 +19,7 @@ describe('AuthController', () => {
             login: jest.fn().mockResolvedValue('testToken'),
             refresh: jest.fn().mockResolvedValue('testToken'),
           },
-        }
+        },
       ],
     }).compile();
 
@@ -28,20 +28,28 @@ describe('AuthController', () => {
   });
 
   it('should register a user', async () => {
-    const dto: CreateUserDTO = { username: 'usernametest', password: 'passwordtest' };
+    const dto: CreateUserDTO = {
+      username: 'usernametest',
+      password: 'passwordtest',
+    };
     expect(await authController.registrate(dto)).toBe('testToken');
     expect(authService.registrate).toHaveBeenCalledWith(dto);
   });
 
   it('should log in a user', async () => {
-    const dto: LoginUserDTO = { username: 'usernametest', password: 'passwordtest' };
+    const dto: LoginUserDTO = {
+      username: 'usernametest',
+      password: 'passwordtest',
+    };
     const req = { user: dto };
     expect(await authController.login(req)).toBe('testToken');
     expect(authService.login).toHaveBeenCalledWith(dto);
   });
 
   it('should refresh a token', async () => {
-    const req = { user: { username: 'usernametest', password: 'passwordtest' } };
+    const req = {
+      user: { username: 'usernametest', password: 'passwordtest' },
+    };
     expect(await authController.refreshToken(req)).toBe('testToken');
     expect(authService.refresh).toHaveBeenCalledWith(req.user);
   });

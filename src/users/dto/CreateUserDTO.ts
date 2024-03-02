@@ -3,7 +3,6 @@ import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 import { validationOptionsMsg } from '../../utils/ValidationMessage';
 
 export class CreateUserDTO {
-
   @ApiProperty({
     description: 'Username of the user',
     minLength: 4,
@@ -11,8 +10,14 @@ export class CreateUserDTO {
     example: 'john_doe',
   })
   @IsString()
-  @MinLength(4, validationOptionsMsg('Username must be between 4 and 20 characters'))
-  @MaxLength(20, validationOptionsMsg('Username must be between 4 and 20 characters'))
+  @MinLength(
+    4,
+    validationOptionsMsg('Username must be between 4 and 20 characters'),
+  )
+  @MaxLength(
+    20,
+    validationOptionsMsg('Username must be between 4 and 20 characters'),
+  )
   @IsNotEmpty({ message: 'Username must not be empty' })
   username: string;
 
@@ -24,7 +29,13 @@ export class CreateUserDTO {
   })
   @IsString()
   @IsNotEmpty({ message: 'Password must not be empty' })
-  @MinLength(4, validationOptionsMsg('Password must be between 4 and 20 characters'))
-  @MaxLength(20, validationOptionsMsg('Password must be between 4 and 20 characters'))
+  @MinLength(
+    4,
+    validationOptionsMsg('Password must be between 4 and 20 characters'),
+  )
+  @MaxLength(
+    20,
+    validationOptionsMsg('Password must be between 4 and 20 characters'),
+  )
   password: string;
 }

@@ -8,17 +8,12 @@ import { GetBalanceDto } from './dto/GetBalanceInTimeDTO';
 @ApiTags('Users')
 @ApiBearerAuth()
 export class UsersController {
-  constructor(
-    private userService: UsersService
-  ) {}
+  constructor(private userService: UsersService) {}
 
   @ApiOperation({ summary: 'Endpoint to get balance of the User' })
   @UseGuards(JwtGuard)
   @Get('/balance')
-  async getUser(
-    @Request() req,
-    @Query() getBalanceDto: GetBalanceDto
-  ) {
+  async getUser(@Request() req, @Query() getBalanceDto: GetBalanceDto) {
     const date = new Date(getBalanceDto.time);
     return this.userService.getBalanceFromTime(date, req.user);
   }

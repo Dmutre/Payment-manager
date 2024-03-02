@@ -16,9 +16,9 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser (username: string, password: string) {
+  async validateUser(username: string, password: string) {
     const user = await this.userRepository.find({
-      username
+      username,
     });
     if (!user) {
       throw new InvalidEntityIdException('User');
@@ -31,7 +31,7 @@ export class AuthService {
     return user;
   }
 
-  private async checkPassword (password: string, hash: string) {
+  private async checkPassword(password: string, hash: string) {
     return bcrypt.compare(password, hash);
   }
 
@@ -41,21 +41,20 @@ export class AuthService {
   }
 
   async registrate(data: CreateUserDTO) {
-    if(await this.checkIfUserAlreadyRegistered(data.username)) {
+    if (await this.checkIfUserAlreadyRegistered(data.username)) {
       throw new AlreadyRegisteredException();
     }
 
     data.password = await this.hashPassword(data.password);
 
-
     const user = await this.userRepository.create(data);
-    await this.balanceService.createBalance(user.id)
+    await this.balanceService.createBalance(user.id);
     return this.generateTokens(user);
   }
 
   private async checkIfUserAlreadyRegistered(username: string) {
     const user = this.userRepository.find({
-      username
+      username,
     });
 
     return user;
@@ -66,7 +65,7 @@ export class AuthService {
 
     return {
       refresh_token: this.jwtService.sign(payload, {
-        expiresIn: process.env.JWT_REFRESH_TOKEN_TTL
+        expiresIn: process.env.JWT_REFRESH_TOKEN_TTL,
       }),
       access_token: this.jwtService.sign(payload),
     };
@@ -76,8 +75,8 @@ export class AuthService {
     return {
       sub: user.id,
       username: user.username,
-      createdAt: Date.now()
-    }
+      createdAt: Date.now(),
+    };
   }
 
   async login(user: User) {
@@ -91,7 +90,7 @@ export class AuthService {
 
   generateAccessToken(payload) {
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
 }

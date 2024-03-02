@@ -31,18 +31,21 @@ describe('AuthService', () => {
   });
 
   it('should register a user', async () => {
-    const dto: CreateUserDTO = { username: 'testuser', password: 'testpassword' };
+    const dto: CreateUserDTO = {
+      username: 'testuser',
+      password: 'testpassword',
+    };
     const createdUser: any = { id: '1', ...dto };
-    const expectedResult = { refresh_token: 'fakeToken', access_token: 'fakeToken' };
-    
+    const expectedResult = {
+      refresh_token: 'fakeToken',
+      access_token: 'fakeToken',
+    };
+
     const result = await authService.registrate(dto);
 
     expect(result).toEqual(expectedResult);
     expect(userRepository.create).toHaveBeenCalledWith(dto);
     expect(balancesService.createBalance).toHaveBeenCalledWith(createdUser.id);
-    expect(jwtService.sign).toHaveBeenCalled(); // Add specific expectation for jwtService.sign if needed
+    expect(jwtService.sign).toHaveBeenCalled();
   });
-
-  // Add more tests for other methods as needed
-
 });

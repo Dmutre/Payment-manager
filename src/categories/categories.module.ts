@@ -9,6 +9,6 @@ import { CategoryGuardOwnership } from './category.guard';
   providers: [CategoriesService, CategoryRepository, CategoryGuardOwnership],
   controllers: [CategoriesController],
   imports: [PrismaModule],
-  exports: [CategoryRepository]
+  exports: [CategoryRepository],
 })
 export class CategoriesModule {}

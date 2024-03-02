@@ -1,6 +1,13 @@
-import { PaymentType } from "@prisma/client";
-import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, Min } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
+import { PaymentType } from '@prisma/client';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePaymentDTO {
   @ApiProperty({ enum: PaymentType, description: 'Type of payment' })
@@ -13,12 +20,20 @@ export class CreatePaymentDTO {
   @Min(0)
   amount: number;
 
-  @ApiProperty({ type: String, required: false, description: 'Description of payment' })
+  @ApiProperty({
+    type: String,
+    required: false,
+    description: 'Description of payment',
+  })
   @IsOptional()
   @IsString()
   description?: string;
 
-  @ApiProperty({ type: String, required: false, description: 'Category ID of payment' })
+  @ApiProperty({
+    type: String,
+    required: false,
+    description: 'Category ID of payment',
+  })
   @IsOptional()
   @IsString()
   categoryId?: string;

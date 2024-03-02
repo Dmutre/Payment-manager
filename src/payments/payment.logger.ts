@@ -5,7 +5,11 @@ import { Payment } from '@prisma/client';
 
 @Injectable()
 export class PaymentLoggerService {
-  private readonly logFilePath: string = path.join(__dirname, '../..', 'payment_logs.txt');
+  private readonly logFilePath: string = path.join(
+    __dirname,
+    '../..',
+    'payment_logs.txt',
+  );
 
   constructor() {
     if (!fs.existsSync(this.logFilePath)) {

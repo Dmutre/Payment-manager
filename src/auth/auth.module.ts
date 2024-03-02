@@ -11,12 +11,22 @@ import { BalancesModule } from 'src/balances/balances.module';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, LocalAuthGuard, JwtStrategy, JwtGuard],
-  imports: [ JwtModule.register({
-    global: true,
-    secret: process.env.SECRET,
-    signOptions: { expiresIn: '8640000s' },
-  }), UsersModule, BalancesModule],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    LocalAuthGuard,
+    JwtStrategy,
+    JwtGuard,
+  ],
+  imports: [
+    JwtModule.register({
+      global: true,
+      secret: process.env.SECRET,
+      signOptions: { expiresIn: '8640000s' },
+    }),
+    UsersModule,
+    BalancesModule,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

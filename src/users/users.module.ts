@@ -10,6 +10,6 @@ import { BalancesModule } from 'src/balances/balances.module';
   providers: [UsersService, UserRepository],
   imports: [PrismaModule, PaymentsModule, BalancesModule],
   controllers: [UsersController],
-  exports: [UserRepository]
+  exports: [UserRepository],
 })
 export class UsersModule {}

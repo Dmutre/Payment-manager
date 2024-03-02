@@ -9,27 +9,20 @@ import { LoginUserDTO } from './dto/LoginUserDTO';
 @Controller('auth')
 @ApiTags('Authentication')
 export class AuthController {
-
-  constructor(
-    private authService: AuthService
-  ) {}
+  constructor(private authService: AuthService) {}
 
   @Post('/registration')
   @ApiOperation({ summary: 'User registration' })
   @ApiBody({ type: CreateUserDTO, description: 'User data for registration' })
-  async registrate(
-    @Body() data: CreateUserDTO,
-  ) {
+  async registrate(@Body() data: CreateUserDTO) {
     return await this.authService.registrate(data);
-  } 
-  
+  }
+
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   @ApiOperation({ summary: 'User login' })
   @ApiBody({ type: LoginUserDTO, description: 'User credentials for login' })
-  async login(
-    @Request() req
-  ) {
+  async login(@Request() req) {
     return await this.authService.login(req.user);
   }
 
@@ -37,9 +30,7 @@ export class AuthController {
   @Post('/refresh')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Refresh JWT token' })
-  async refreshToken(
-    @Request() req
-  ) {
+  async refreshToken(@Request() req) {
     return this.authService.refresh(req.user);
   }
 }

@@ -6,6 +6,6 @@ import { PrismaModule } from '../database/prisma.module';
 @Module({
   providers: [BalancesService, BalanceRepository],
   imports: [PrismaModule],
-  exports: [BalancesService]
+  exports: [BalancesService],
 })
 export class BalancesModule {}

@@ -4,3 +4,4 @@ Payment updated - Type: INCOME -> INCOME, CategoryId: null -> null, Date: Fri Ma
 Payment created - Type: INCOME, CategoryId: null, Date: Sat Mar 02 2024 00:41:29 GMT+0100 (Центральная Европа, стандартное время), Amount: 0
 Payment created - Type: INCOME, CategoryId: null, Date: Sat Mar 02 2024 00:41:34 GMT+0100 (Центральная Европа, стандартное время), Amount: 500
 Payment created - Type: INCOME, CategoryId: null, Date: Sat Mar 02 2024 00:44:10 GMT+0100 (Центральная Европа, стандартное время), Amount: 500
+Payment created - Type: INCOME, CategoryId: null, Date: Sat Mar 02 2024 11:36:56 GMT+0100 (Центральная Европа, стандартное время), Amount: 500

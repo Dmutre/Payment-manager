@@ -4,12 +4,9 @@ import { CreateCategoryDTO } from './dto/CreateCategoryDTO';
 import { InvalidEntityIdException } from '../utils/exeptions/InvalidEntityIdException';
 import { UpdateCategoryDTO } from './dto/UpdateCategoryDTO';
 
-
 @Injectable()
 export class CategoriesService {
-  constructor(
-    private categoryRepository: CategoryRepository,
-  ) {}
+  constructor(private categoryRepository: CategoryRepository) {}
 
   async createCategory(data: CreateCategoryDTO, userId: string) {
     // Тут можна реалізувати логіку створення категорії

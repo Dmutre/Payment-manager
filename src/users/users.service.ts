@@ -13,16 +13,19 @@ export class UsersService {
   ) {}
 
   async getBalanceFromTime(date: Date, user: User) {
-    const payments = await this.paymentService.getPaymentsAfterTime(date, user.id);
-    const balance = await this.balanceService.getBalance(user.id)
+    const payments = await this.paymentService.getPaymentsAfterTime(
+      date,
+      user.id,
+    );
+    const balance = await this.balanceService.getBalance(user.id);
     const balanceInTime = this.countBalanceInTime(balance.balance, payments);
-    return {balance: balanceInTime, payments}
+    return { balance: balanceInTime, payments };
   }
 
-  countBalanceInTime (balance: number, payments: Payment[]) {
-    for(const payment of payments) {
-      if(payment.type === 'INCOME') balance -= payment.amount;
-      else if(payment.type === 'EXPENSE') balance += payment.amount;
+  countBalanceInTime(balance: number, payments: Payment[]) {
+    for (const payment of payments) {
+      if (payment.type === 'INCOME') balance -= payment.amount;
+      else if (payment.type === 'EXPENSE') balance += payment.amount;
     }
     return balance;
   }

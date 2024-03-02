@@ -16,5 +16,4 @@ import { BalancesModule } from './balances/balances.module';
     BalancesModule,
   ],
 })
-
 export class AppModule {}
